@@ -20,10 +20,10 @@ if len(args) > 3:
 
 
 # Build command to pull git log commits
-cmd = ''
+cmd = 'git'
 if repo_dir:
-    cmd = 'cd ' + repo_dir + '; '
-cmd += 'git log --pretty=format:"%s"'
+    cmd += ' --git-dir ' + repo_dir + '/.git'
+cmd += ' log --pretty=format:"%s"'
 if author:
     cmd += ' --author=' + author
 cmd += ' | cat'
