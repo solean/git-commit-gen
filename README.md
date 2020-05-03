@@ -1,6 +1,6 @@
 # git-commit-gen
 
-git-commit-gen is a fun tool that builds a markov model (using the fantastic [markovify](https://github.com/jsvine/markovify) module) of a git repo's log and use it to generate commit messages. The more commits in a repo, the more real the generated messages seem.
+git-commit-gen is a fun tool that builds a markov model (using the fantastic [markovify](https://github.com/jsvine/markovify) library) of a git repo's log and use it to generate commit messages. The more commits in a repo, the more real the generated messages seem.
 
 ## Example outputs:
 - "Removed extraneous comments before code complete with functional tests to work in two stages."
