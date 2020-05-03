@@ -41,9 +41,7 @@ class GitCommitGenerator:
         if not self.model:
             self.build_model()
 
-        msgs = []
-        for i in range(num_msgs):
-            msgs.append(self.model.make_sentence())
+        msgs = [self.model.make_sentence() for i in range(num_msgs)]
         return msgs
 
 
