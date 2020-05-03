@@ -1,6 +1,7 @@
 from typing import List
 import re
 import subprocess
+import argparse
 import sys
 import markovify
 
@@ -36,36 +37,29 @@ class GitCommitGenerator:
         return self.model
 
     # Generate commit messages from model
-    def generate(self, num_lines: int) -> List[str]:
+    def generate(self, num_msgs: int) -> List[str]:
         if not self.model:
             self.build_model()
 
         msgs = []
-        for i in range(num_lines):
+        for i in range(num_msgs):
             msgs.append(self.model.make_sentence())
         return msgs
 
 
-# TODO: accept these as named params
-# Parse params:
-#   - OPTIONAL: directory of git repo (if not supplied, use current dir)
-#   - OPTIONAL: commit author
-#   - OPTIONAL: number of sentences to generate (default = 1)
 if __name__ == '__main__':
-    args = sys.argv
-    repo_dir = None
-    author = None
-    num_sentences = 1
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--repo', help='Directory of the git repo to build the git log model from', type=str)
+    parser.add_argument('--author', help='Filter git log by author', type=str)
+    parser.add_argument('--n', help='Number of commit messages to generate (default = 1)', type=int, default=1)
+    args = parser.parse_args()
 
-    if len(args) > 1:
-        repo_dir = args[1]
-    if len(args) > 2:
-        author = args[2]
-    if len(args) > 3:
-        num_sentences = int(args[3])
+    repo = args.repo
+    author = args.author
+    num_msgs = args.n
 
-    g = GitCommitGenerator(repo_dir, author)
-    commit_msgs = g.generate(num_sentences)
+    g = GitCommitGenerator(repo, author)
+    commit_msgs = g.generate(num_msgs)
     for msg in commit_msgs:
         print(msg)
 
