@@ -27,13 +27,13 @@ class GitCommitGenerator:
 
 
         # Parse out branch/PR merges so that we only have actual commit messages
-        parsedLines = []
+        parsed_lines = []
         for line in raw_glg_output_lines:
             if not re.match(r'Merge ', line) and not re.match(r'\[bamboo\]', line):
-                parsedLines.append(line)
+                parsed_lines.append(line)
 
 
-        self.model = markovify.NewlineText(parsedLines)
+        self.model = markovify.NewlineText(parsed_lines)
         return self.model
 
     # Generate commit messages from model
@@ -58,6 +58,5 @@ if __name__ == '__main__':
 
     g = GitCommitGenerator(repo, author)
     commit_msgs = g.generate(num_msgs)
-    for msg in commit_msgs:
-        print(msg)
+    [print(msg) for msg in commit_msgs]
 
