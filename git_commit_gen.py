@@ -19,19 +19,15 @@ class GitCommitGenerator:
         cmd += ' log --pretty=format:"%s"'
         if self.author:
             cmd += ' --author=' + self.author
-        cmd += ' | cat'
-
 
         raw_glg_output = subprocess.run(cmd, stdout=subprocess.PIPE, shell=True)
         raw_glg_output_lines = raw_glg_output.stdout.decode('utf-8').split('\n')
-
 
         # Parse out branch/PR merges so that we only have actual commit messages
         parsed_lines = []
         for line in raw_glg_output_lines:
             if not re.match(r'Merge ', line) and not re.match(r'\[bamboo\]', line):
                 parsed_lines.append(line)
-
 
         self.model = markovify.NewlineText(parsed_lines)
         return self.model
