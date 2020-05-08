@@ -15,10 +15,10 @@ class GitCommitGenerator:
         # Build command to pull git log commits
         cmd = 'git'
         if self.repo:
-            cmd += ' --git-dir ' + self.repo + '/.git'
+            cmd += f' --git-dir {self.repo}/.git'
         cmd += ' log --pretty=format:"%s"'
         if self.author:
-            cmd += ' --author=' + self.author
+            cmd += f' --author={self.author}'
 
         raw_glg_output = subprocess.run(cmd, stdout=subprocess.PIPE, shell=True)
         raw_glg_output_lines = raw_glg_output.stdout.decode('utf-8').split('\n')
